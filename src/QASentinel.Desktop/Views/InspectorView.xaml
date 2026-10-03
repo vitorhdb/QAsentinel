@@ -1,0 +1,191 @@
+<UserControl x:Class="QASentinel.Desktop.Views.InspectorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="230" />
+            <RowDefinition Height="12" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Border Style="{StaticResource Card}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox Width="260" Text="{Binding ProcessFilter, UpdateSourceTrigger=PropertyChanged}" />
+                        <Button Content="Atualizar processos" Command="{Binding RefreshProcessesCommand}"
+                                Style="{StaticResource SecondaryButton}" Margin="8,0,0,0" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Orientation="Horizontal">
+                        <Button Content="Conectar" Command="{Binding AttachSelectedCommand}"
+                                Style="{StaticResource PrimaryButton}" Margin="0,0,8,0" />
+                        <Button Command="{Binding ToggleInspectorCommand}" Style="{StaticResource SecondaryButton}">
+                            <TextBlock>
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Text" Value="Ativar Inspector" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsInspectorRunning}" Value="True">
+                                                <Setter Property="Text" Value="Desativar Inspector" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+                <DataGrid Grid.Row="1" ItemsSource="{Binding Processes}" SelectedItem="{Binding SelectedProcess}"
+                          Margin="0,12,0,0">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Processo" Binding="{Binding ProcessName}" Width="1.4*" />
+                        <DataGridTextColumn Header="PID" Binding="{Binding ProcessId}" Width="80" />
+                        <DataGridTextColumn Header="Janela" Binding="{Binding WindowTitle}" Width="2*" />
+                        <DataGridTextColumn Header="Executável" Binding="{Binding ExecutablePath, TargetNullValue=Acesso restrito}" Width="3*" />
+                        <DataGridTextColumn Header="Arquitetura" Binding="{Binding Architecture}" Width="100" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </Border>
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1.35*" MinWidth="380" />
+                <ColumnDefinition Width="12" />
+                <ColumnDefinition Width="*" MinWidth="380" />
+            </Grid.ColumnDefinitions>
+
+            <Border Style="{StaticResource Card}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel>
+                            <TextBlock Text="Aplicação conectada" Style="{StaticResource SectionTitle}" />
+                            <TextBlock Text="{Binding State.Session.WindowTitle, TargetNullValue=Nenhuma aplicação conectada}"
+                                       Style="{StaticResource Caption}" Margin="0,4,0,0" />
+                        </StackPanel>
+                        <Border Grid.Column="1" Style="{StaticResource StatusBadge}">
+                            <TextBlock Text="{Binding StatusMessage}" Foreground="{DynamicResource PrimaryBrush}" />
+                        </Border>
+                    </Grid>
+
+                    <Border Grid.Row="1" Margin="0,16" CornerRadius="8" BorderBrush="{DynamicResource BorderBrush}"
+                            BorderThickness="1" Background="#FAFCFF">
+                        <Grid>
+                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="420">
+                                <Border Width="72" Height="72" CornerRadius="36" Background="{DynamicResource PrimarySoftBrush}">
+                                    <TextBlock Text="⌖" FontSize="34" Foreground="{DynamicResource PrimaryBrush}"
+                                               HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                </Border>
+                                <TextBlock Text="Hover Inspector" FontSize="20" FontWeight="SemiBold"
+                                           HorizontalAlignment="Center" Margin="0,18,0,8" />
+                                <TextBlock Text="Com o Inspector ativo, mova o mouse sobre o Test Playground ou a aplicação Delphi. O Agent desenhará o highlight sem interceptar o clique."
+                                           Foreground="{DynamicResource TextSecondaryBrush}" TextAlignment="Center" />
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+
+                    <StackPanel Grid.Row="2" Orientation="Horizontal">
+                        <Button Content="Screenshot da aplicação" Command="{Binding ScreenshotApplicationCommand}"
+                                Style="{StaticResource SecondaryButton}" />
+                        <TextBlock Text="{Binding State.LastScreenshotPath}" Style="{StaticResource Caption}"
+                                   VerticalAlignment="Center" Margin="12,0,0,0" TextTrimming="CharacterEllipsis" />
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <Border Grid.Column="2" Style="{StaticResource Card}">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel>
+                        <TextBlock Text="Propriedades do componente" Style="{StaticResource SectionTitle}" />
+                        <TextBlock Text="Elemento sob o cursor" Style="{StaticResource Caption}" Margin="0,4,0,16" />
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="130" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <TextBlock Text="Name" Style="{StaticResource PropertyLabel}" Margin="0,5" />
+                            <TextBlock Grid.Column="1" Text="{Binding State.CurrentElement.Name, TargetNullValue=—}" Margin="0,5" />
+                            <TextBlock Grid.Row="1" Text="AutomationId" Style="{StaticResource PropertyLabel}" Margin="0,5" />
+                            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding State.CurrentElement.AutomationId, TargetNullValue=—}" Margin="0,5" />
+                            <TextBlock Grid.Row="2" Text="ClassName" Style="{StaticResource PropertyLabel}" Margin="0,5" />
+                            <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding State.CurrentElement.ClassName, TargetNullValue=—}" Margin="0,5" />
+                            <TextBlock Grid.Row="3" Text="ControlType" Style="{StaticResource PropertyLabel}" Margin="0,5" />
+                            <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding State.CurrentElement.ControlType, TargetNullValue=—}" Margin="0,5" />
+                            <TextBlock Grid.Row="4" Text="HWND" Style="{StaticResource PropertyLabel}" Margin="0,5" />
+                            <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding State.CurrentElement.NativeWindowHandle, TargetNullValue=—}" Margin="0,5" />
+                            <TextBlock Grid.Row="5" Text="Enabled" Style="{StaticResource PropertyLabel}" Margin="0,5" />
+                            <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding State.CurrentElement.IsEnabled, TargetNullValue=—}" Margin="0,5" />
+                            <TextBlock Grid.Row="6" Text="Offscreen" Style="{StaticResource PropertyLabel}" Margin="0,5" />
+                            <TextBlock Grid.Row="6" Grid.Column="1" Text="{Binding State.CurrentElement.IsOffscreen, TargetNullValue=—}" Margin="0,5" />
+                            <TextBlock Grid.Row="7" Text="Posição" Style="{StaticResource PropertyLabel}" Margin="0,5" />
+                            <TextBlock Grid.Row="7" Grid.Column="1" Margin="0,5">
+                                <Run Text="X=" /><Run Text="{Binding State.CurrentElement.Bounds.X, Mode=OneWay}" />
+                                <Run Text="  Y=" /><Run Text="{Binding State.CurrentElement.Bounds.Y, Mode=OneWay}" />
+                            </TextBlock>
+                            <TextBlock Grid.Row="8" Text="Tamanho" Style="{StaticResource PropertyLabel}" Margin="0,5" />
+                            <TextBlock Grid.Row="8" Grid.Column="1" Margin="0,5">
+                                <Run Text="{Binding State.CurrentElement.Bounds.Width, Mode=OneWay}" />
+                                <Run Text=" × " /><Run Text="{Binding State.CurrentElement.Bounds.Height, Mode=OneWay}" />
+                            </TextBlock>
+                        </Grid>
+
+                        <TextBlock Text="Patterns disponíveis" Style="{StaticResource SectionTitle}" Margin="0,18,0,8" />
+                        <ItemsControl ItemsSource="{Binding State.CurrentElement.SupportedPatterns}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate><WrapPanel /></ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Style="{StaticResource StatusBadge}" Margin="0,0,6,6">
+                                        <TextBlock Text="{Binding}" FontSize="11" />
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+
+                        <TextBlock Text="Testar interação" Style="{StaticResource SectionTitle}" Margin="0,14,0,8" />
+                        <TextBox Text="{Binding InputText, UpdateSourceTrigger=PropertyChanged}" />
+                        <ComboBox ItemsSource="{Binding DraftActions}" SelectedItem="{Binding SelectedDraftAction}"
+                                  DisplayMemberPath="Label" Margin="0,8,0,0" />
+                        <WrapPanel Margin="0,10,0,0">
+                            <Button Content="Clicar" Command="{Binding TestClickCommand}" Style="{StaticResource PrimaryButton}" Margin="0,0,8,8" />
+                            <Button Content="Focar" Command="{Binding FocusCommand}" Style="{StaticResource SecondaryButton}" Margin="0,0,8,8" />
+                            <Button Content="Digitar texto" Command="{Binding SendTextCommand}" Style="{StaticResource SecondaryButton}" Margin="0,0,8,8" />
+                            <Button Content="Screenshot" Command="{Binding ScreenshotElementCommand}" Style="{StaticResource SecondaryButton}" Margin="0,0,0,8" />
+                            <Button Content="Adicionar ao teste" Command="{Binding AddToTestCommand}" Style="{StaticResource SecondaryButton}" Margin="8,0,0,8" />
+                        </WrapPanel>
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
+        </Grid>
+    </Grid>
+</UserControl>

@@ -1,0 +1,71 @@
+<UserControl x:Class="QASentinel.Desktop.Views.ExecutionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="12" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Border Style="{StaticResource Card}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel>
+                    <TextBlock Text="Executar caso" Style="{StaticResource SectionTitle}" />
+                    <ComboBox ItemsSource="{Binding TestCases}" SelectedItem="{Binding SelectedTestCase}"
+                              DisplayMemberPath="Name" Width="420" HorizontalAlignment="Left" Margin="0,10,0,0" />
+                    <ProgressBar Value="{Binding ProgressPercentage}" Maximum="100" Height="7" Width="420"
+                                 HorizontalAlignment="Left" Margin="0,12,0,0" />
+                    <TextBlock Text="{Binding StatusMessage}" Style="{StaticResource Caption}" Margin="0,8,0,0" />
+                </StackPanel>
+                <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Border Style="{StaticResource StatusBadge}" Margin="0,0,10,0">
+                        <TextBlock Text="{Binding ExecutionStatus}" Foreground="{DynamicResource PrimaryBrush}" />
+                    </Border>
+                    <Button Content="Executar" Command="{Binding RunCommand}" Style="{StaticResource PrimaryButton}" />
+                    <Button Content="Cancelar" Command="{Binding CancelCommand}" Style="{StaticResource SecondaryButton}" Margin="8,0,0,0" />
+                    <Button Content="Atualizar" Command="{Binding LoadCommand}" Style="{StaticResource SecondaryButton}" Margin="8,0,0,0" />
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1.3*" />
+                <ColumnDefinition Width="12" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Border Style="{StaticResource Card}">
+                <DockPanel>
+                    <TextBlock DockPanel.Dock="Top" Text="Passos da execução atual" Style="{StaticResource SectionTitle}" Margin="0,0,0,12" />
+                    <DataGrid ItemsSource="{Binding CurrentSteps}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="#" Binding="{Binding Sequence}" Width="45" />
+                            <DataGridTextColumn Header="Ação" Binding="{Binding Action}" Width="*" />
+                            <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="*" />
+                            <DataGridTextColumn Header="Tentativas" Binding="{Binding Attempts}" Width="85" />
+                            <DataGridTextColumn Header="Duração" Binding="{Binding DurationMilliseconds, StringFormat={}{0} ms}" Width="90" />
+                            <DataGridTextColumn Header="Mensagem" Binding="{Binding Message}" Width="2*" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </DockPanel>
+            </Border>
+            <Border Grid.Column="2" Style="{StaticResource Card}">
+                <DockPanel>
+                    <TextBlock DockPanel.Dock="Top" Text="Execuções recentes" Style="{StaticResource SectionTitle}" Margin="0,0,0,12" />
+                    <DataGrid ItemsSource="{Binding RecentExecutions}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Início" Binding="{Binding StartedAt, StringFormat={}{0:dd/MM HH:mm:ss}}" Width="*" />
+                            <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="*" />
+                            <DataGridTextColumn Header="Duração" Binding="{Binding DurationMilliseconds, StringFormat={}{0} ms}" Width="*" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </DockPanel>
+            </Border>
+        </Grid>
+    </Grid>
+</UserControl>

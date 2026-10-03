@@ -1,0 +1,26 @@
+<Window x:Class="QASentinel.TestPlayground.PlaygroundDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:automation="clr-namespace:System.Windows.Automation;assembly=PresentationCore"
+        Title="Dialog de confirmação" Height="240" Width="440" ResizeMode="NoResize"
+        WindowStartupLocation="CenterOwner"
+        automation:AutomationProperties.AutomationId="dlgConfirmation">
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <StackPanel>
+            <TextBlock Text="Dialog modal" FontSize="20" FontWeight="SemiBold" />
+            <TextBlock Text="Este diálogo existe para validar descoberta de janelas modais e botões pelo Inspector."
+                       TextWrapping="Wrap" Margin="0,12,0,0" Foreground="#65788D" />
+        </StackPanel>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="Cancelar" IsCancel="True" Padding="18,8" Margin="0,0,8,0"
+                    automation:AutomationProperties.AutomationId="btnCancelDialog" />
+            <Button Content="Confirmar" IsDefault="True" Click="Confirm_Click" Padding="18,8"
+                    Background="#0F6FEB" Foreground="White" BorderThickness="0"
+                    automation:AutomationProperties.AutomationId="btnConfirmDialog" />
+        </StackPanel>
+    </Grid>
+</Window>

@@ -1,0 +1,129 @@
+<Window x:Class="QASentinel.TestPlayground.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:automation="clr-namespace:System.Windows.Automation;assembly=PresentationCore"
+        Title="QA Sentinel Test Playground" Height="720" Width="1040" MinHeight="620" MinWidth="900"
+        WindowStartupLocation="CenterScreen" Background="#F3F6FA"
+        automation:AutomationProperties.AutomationId="wndTestPlayground">
+    <DockPanel>
+        <Menu DockPanel.Dock="Top" Background="#10233D" Foreground="White"
+              automation:AutomationProperties.AutomationId="mainMenu">
+            <MenuItem Header="_Arquivo">
+                <MenuItem Header="Abrir _dialog" Click="OpenDialog_Click"
+                          automation:AutomationProperties.AutomationId="mnuOpenDialog" />
+                <Separator />
+                <MenuItem Header="_Sair" Click="Exit_Click" automation:AutomationProperties.AutomationId="mnuExit" />
+            </MenuItem>
+            <MenuItem Header="_Ajuda">
+                <MenuItem Header="_Sobre" Click="About_Click" automation:AutomationProperties.AutomationId="mnuAbout" />
+            </MenuItem>
+        </Menu>
+
+        <Grid Margin="24">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <StackPanel>
+                <TextBlock Text="Automation Test Playground" FontSize="26" FontWeight="SemiBold" Foreground="#10233D" />
+                <TextBlock Text="Controles WPF para validar descoberta, highlight, click, input e padrões UIA."
+                           Foreground="#65788D" Margin="0,5,0,20" />
+            </StackPanel>
+
+            <TabControl Grid.Row="1" Name="MainTabs" automation:AutomationProperties.AutomationId="tabMain">
+                <TabItem Header="Cadastro" automation:AutomationProperties.AutomationId="tabRegistration">
+                    <Grid Margin="22">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="160" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="220" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Text="Nome" VerticalAlignment="Center" Margin="0,0,12,12" />
+                        <TextBox Grid.Column="1" Name="NameTextBox" Margin="0,0,20,12" Padding="9,7"
+                                 automation:AutomationProperties.Name="Nome"
+                                 automation:AutomationProperties.AutomationId="txtName" />
+
+                        <TextBlock Grid.Row="1" Text="Categoria" VerticalAlignment="Center" Margin="0,0,12,12" />
+                        <ComboBox Grid.Row="1" Grid.Column="1" Name="CategoryComboBox" Margin="0,0,20,12" Padding="8,6"
+                                  SelectedIndex="0" automation:AutomationProperties.Name="Categoria"
+                                  automation:AutomationProperties.AutomationId="cboCategory">
+                            <ComboBoxItem Content="Operacional" />
+                            <ComboBoxItem Content="Financeiro" />
+                            <ComboBoxItem Content="Administrativo" />
+                        </ComboBox>
+
+                        <TextBlock Grid.Row="2" Text="Observações" VerticalAlignment="Top" Margin="0,7,12,12" />
+                        <TextBox Grid.Row="2" Grid.Column="1" Name="NotesTextBox" Height="90" Margin="0,0,20,12"
+                                 Padding="9,7" AcceptsReturn="True" VerticalScrollBarVisibility="Auto"
+                                 automation:AutomationProperties.Name="Observações"
+                                 automation:AutomationProperties.AutomationId="txtNotes" />
+
+                        <TextBlock Grid.Row="3" Text="Senha de teste" VerticalAlignment="Center" Margin="0,0,12,12" />
+                        <PasswordBox Grid.Row="3" Grid.Column="1" Name="PasswordTextBox" Margin="0,0,20,12" Padding="9,7"
+                                     automation:AutomationProperties.Name="Senha"
+                                     automation:AutomationProperties.AutomationId="txtPassword" />
+
+                        <CheckBox Grid.Row="4" Grid.Column="1" Name="ActiveCheckBox" Content="Registro ativo"
+                                  IsChecked="True" Margin="0,2,0,14"
+                                  automation:AutomationProperties.AutomationId="chkActive" />
+
+                        <StackPanel Grid.Row="5" Grid.Column="1" Orientation="Horizontal">
+                            <Button Name="SaveButton" Content="Salvar" Click="SaveButton_Click" Padding="20,9"
+                                    Background="#0F6FEB" Foreground="White" BorderThickness="0" Margin="0,0,10,0"
+                                    automation:AutomationProperties.Name="Salvar"
+                                    automation:AutomationProperties.AutomationId="btnSave" />
+                            <Button Name="ClearButton" Content="Limpar" Click="ClearButton_Click" Padding="20,9"
+                                    automation:AutomationProperties.AutomationId="btnClear" />
+                            <Button Name="DialogButton" Content="Abrir dialog" Click="OpenDialog_Click" Padding="20,9"
+                                    Margin="10,0,0,0" automation:AutomationProperties.AutomationId="btnDialog" />
+                        </StackPanel>
+
+                        <Border Grid.Column="2" Grid.RowSpan="6" Background="#EDF5FF" CornerRadius="8" Padding="18">
+                            <StackPanel>
+                                <TextBlock Text="Estado do formulário" FontWeight="SemiBold" Foreground="#10233D" />
+                                <TextBlock Text="Use o Inspector para observar AutomationId, Name, ControlType, bounds e patterns."
+                                           Foreground="#65788D" TextWrapping="Wrap" Margin="0,9,0,16" />
+                                <TextBlock Text="Última ação" FontSize="11" Foreground="#65788D" />
+                                <TextBlock Name="LastActionText" Text="Nenhuma" FontWeight="SemiBold" Margin="0,4,0,0"
+                                           automation:AutomationProperties.AutomationId="lblLastAction" />
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                </TabItem>
+
+                <TabItem Header="Dados" automation:AutomationProperties.AutomationId="tabData">
+                    <Grid Margin="18">
+                        <DataGrid Name="SampleGrid" ItemsSource="{Binding Rows}" AutoGenerateColumns="False"
+                                  CanUserAddRows="False" IsReadOnly="True"
+                                  automation:AutomationProperties.Name="Registros"
+                                  automation:AutomationProperties.AutomationId="gridRecords">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Código" Binding="{Binding Code}" Width="90" />
+                                <DataGridTextColumn Header="Descrição" Binding="{Binding Description}" Width="*" />
+                                <DataGridTextColumn Header="Categoria" Binding="{Binding Category}" Width="180" />
+                                <DataGridCheckBoxColumn Header="Ativo" Binding="{Binding IsActive}" Width="90" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+                </TabItem>
+            </TabControl>
+
+            <Border Grid.Row="2" Background="White" BorderBrush="#DCE5EF" BorderThickness="1" CornerRadius="7"
+                    Padding="12,8" Margin="0,14,0,0">
+                <TextBlock Text="Playground pronto · UIA3 · Use Ctrl+Tab para alternar abas" Foreground="#65788D" />
+            </Border>
+        </Grid>
+    </DockPanel>
+</Window>

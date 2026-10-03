@@ -1,0 +1,38 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\QASentinel.Agent\QASentinel.Agent.csproj" ReferenceOutputAssembly="false" />
+    <ProjectReference Include="..\QASentinel.TestPlayground\QASentinel.TestPlayground.csproj" ReferenceOutputAssembly="false" />
+    <ProjectReference Include="..\QASentinel.Application\QASentinel.Application.csproj" />
+    <ProjectReference Include="..\QASentinel.Contracts\QASentinel.Contracts.csproj" />
+    <ProjectReference Include="..\QASentinel.Infrastructure\QASentinel.Infrastructure.csproj" />
+    <ProjectReference Include="..\QASentinel.Observability\QASentinel.Observability.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.12" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <Target Name="CopyAgentOutput" AfterTargets="Build">
+    <ItemGroup>
+      <AgentOutputFiles Include="..\QASentinel.Agent\bin\$(Configuration)\net10.0-windows\**\*" />
+      <PlaygroundOutputFiles Include="..\QASentinel.TestPlayground\bin\$(Configuration)\net10.0-windows\**\*" />
+    </ItemGroup>
+    <Copy SourceFiles="@(AgentOutputFiles)"
+          DestinationFiles="@(AgentOutputFiles->'$(OutDir)Agent\%(RecursiveDir)%(Filename)%(Extension)')"
+          SkipUnchangedFiles="true" />
+    <Copy SourceFiles="@(PlaygroundOutputFiles)"
+          DestinationFiles="@(PlaygroundOutputFiles->'$(OutDir)Playground\%(RecursiveDir)%(Filename)%(Extension)')"
+          SkipUnchangedFiles="true" />
+  </Target>
+
+</Project>

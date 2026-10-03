@@ -1,0 +1,17 @@
+<Application x:Class="QASentinel.Desktop.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="DesignSystem/Colors.xaml" />
+                <ResourceDictionary Source="DesignSystem/Typography.xaml" />
+                <ResourceDictionary Source="DesignSystem/Buttons.xaml" />
+                <ResourceDictionary Source="DesignSystem/Inputs.xaml" />
+                <ResourceDictionary Source="DesignSystem/Cards.xaml" />
+                <ResourceDictionary Source="DesignSystem/Tables.xaml" />
+                <ResourceDictionary Source="DesignSystem/Badges.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

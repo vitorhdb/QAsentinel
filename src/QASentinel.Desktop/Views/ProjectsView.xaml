@@ -1,0 +1,39 @@
+<UserControl x:Class="QASentinel.Desktop.Views.ProjectsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="*" MinWidth="300" />
+        </Grid.ColumnDefinitions>
+        <Border Style="{StaticResource Card}" Margin="0,0,12,0">
+            <DockPanel>
+                <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,0,0,14">
+                    <TextBlock Text="Projetos cadastrados" Style="{StaticResource SectionTitle}" VerticalAlignment="Center" />
+                    <Button Content="Atualizar" Command="{Binding LoadCommand}" Style="{StaticResource SecondaryButton}"
+                            Margin="16,0,0,0" />
+                </StackPanel>
+                <DataGrid ItemsSource="{Binding Projects}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Nome" Binding="{Binding Name}" Width="2*" />
+                        <DataGridTextColumn Header="Descrição" Binding="{Binding Description}" Width="3*" />
+                        <DataGridTextColumn Header="Criado em" Binding="{Binding CreatedAt, StringFormat={}{0:dd/MM/yyyy HH:mm}}" Width="*" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </DockPanel>
+        </Border>
+        <Border Grid.Column="1" Style="{StaticResource Card}">
+            <StackPanel>
+                <TextBlock Text="Novo projeto" Style="{StaticResource SectionTitle}" />
+                <TextBlock Text="Nome" Style="{StaticResource PropertyLabel}" Margin="0,18,0,6" />
+                <TextBox Text="{Binding NewProjectName, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBlock Text="Descrição" Style="{StaticResource PropertyLabel}" Margin="0,14,0,6" />
+                <TextBox Text="{Binding NewProjectDescription, UpdateSourceTrigger=PropertyChanged}"
+                         Height="100" AcceptsReturn="True" VerticalContentAlignment="Top" />
+                <Button Content="Criar projeto" Command="{Binding CreateProjectCommand}"
+                        Style="{StaticResource PrimaryButton}" Margin="0,16,0,0" />
+                <TextBlock Text="{Binding StatusMessage}" Style="{StaticResource Caption}" Margin="0,14,0,0" />
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>

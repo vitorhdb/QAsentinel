@@ -1,0 +1,95 @@
+<UserControl x:Class="QASentinel.Desktop.Views.DashboardView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel>
+            <Border Style="{StaticResource Card}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Border Width="54" Height="54" CornerRadius="12" Background="{DynamicResource PrimarySoftBrush}">
+                        <TextBlock Text="QS" Foreground="{DynamicResource PrimaryBrush}" FontWeight="Bold"
+                                   FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                    <StackPanel Grid.Column="1" Margin="16,0">
+                        <TextBlock Text="QA Sentinel Foundation" Style="{StaticResource SectionTitle}" />
+                        <TextBlock Text="Playwright para Desktop · Inspector UIA3" Style="{StaticResource Caption}" Margin="0,4,0,0" />
+                        <TextBlock Text="{Binding State.Session.ExecutablePath, TargetNullValue=Nenhuma aplicação conectada}"
+                                   Style="{StaticResource Caption}" Margin="0,2,0,0" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="2" HorizontalAlignment="Right">
+                        <Border Style="{StaticResource StatusBadge}">
+                            <TextBlock Text="{Binding State.ConnectionStatus}" Foreground="{DynamicResource PrimaryBrush}" />
+                        </Border>
+                        <Button Content="Abrir Inspector" Command="{Binding OpenInspectorCommand}"
+                                Style="{StaticResource PrimaryButton}" Margin="0,10,0,0" />
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <TextBlock Text="Status operacional" Style="{StaticResource SectionTitle}" Margin="0,24,0,12" />
+            <UniformGrid Columns="4">
+                <Border Style="{StaticResource Card}" Margin="0,0,10,0">
+                    <StackPanel>
+                        <TextBlock Text="CONEXÃO" Style="{StaticResource Caption}" />
+                        <TextBlock Text="{Binding State.ConnectionStatus}" FontWeight="SemiBold" Margin="0,8,0,0" />
+                    </StackPanel>
+                </Border>
+                <Border Style="{StaticResource Card}" Margin="0,0,10,0">
+                    <StackPanel>
+                        <TextBlock Text="BACKEND" Style="{StaticResource Caption}" />
+                        <TextBlock Text="{Binding State.Session.AutomationBackend, TargetNullValue=UIA3}" FontSize="20"
+                                   FontWeight="SemiBold" Margin="0,8,0,0" />
+                    </StackPanel>
+                </Border>
+                <Border Style="{StaticResource Card}" Margin="0,0,10,0">
+                    <StackPanel>
+                        <TextBlock Text="APLICAÇÃO" Style="{StaticResource Caption}" />
+                        <TextBlock Text="{Binding State.Session.ProcessName, TargetNullValue=Não conectada}"
+                                   FontWeight="SemiBold" Margin="0,8,0,0" />
+                    </StackPanel>
+                </Border>
+                <Border Style="{StaticResource Card}">
+                    <StackPanel>
+                        <TextBlock Text="ÚLTIMA EVIDÊNCIA" Style="{StaticResource Caption}" />
+                        <TextBlock Text="{Binding State.LastScreenshotPath, TargetNullValue=Nenhuma captura}"
+                                   FontWeight="SemiBold" Margin="0,8,0,0" TextTrimming="CharacterEllipsis" />
+                    </StackPanel>
+                </Border>
+            </UniformGrid>
+
+            <Grid Margin="0,24,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Border Style="{StaticResource Card}" Margin="0,0,12,0">
+                    <StackPanel>
+                        <TextBlock Text="Primeiro cenário validável" Style="{StaticResource SectionTitle}" />
+                        <TextBlock Margin="0,10,0,16" Foreground="{DynamicResource TextSecondaryBrush}"
+                                   Text="Inicie o Playground, anexe ao processo, ative o Inspector e valide click, input e screenshot." />
+                        <StackPanel Orientation="Horizontal">
+                            <Button Content="Iniciar Test Playground" Command="{Binding StartPlaygroundCommand}"
+                                    Style="{StaticResource PrimaryButton}" Margin="0,0,10,0" />
+                            <Button Content="Gerenciar projetos" Command="{Binding OpenProjectsCommand}"
+                                    Style="{StaticResource SecondaryButton}" />
+                        </StackPanel>
+                        <TextBlock Text="{Binding LastAction}" Style="{StaticResource Caption}" Margin="0,14,0,0" />
+                    </StackPanel>
+                </Border>
+                <Border Grid.Column="1" Style="{StaticResource Card}">
+                    <StackPanel>
+                        <TextBlock Text="Escopo desta sprint" Style="{StaticResource SectionTitle}" />
+                        <TextBlock Text="✓ Named Pipes e handshake" Margin="0,12,0,0" />
+                        <TextBlock Text="✓ Attach e descoberta de janela" Margin="0,7,0,0" />
+                        <TextBlock Text="✓ Hover Inspector e highlight" Margin="0,7,0,0" />
+                        <TextBlock Text="✓ Click, foco, input e screenshot" Margin="0,7,0,0" />
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

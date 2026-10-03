@@ -1,0 +1,94 @@
+<UserControl x:Class="QASentinel.Desktop.Views.RecorderView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1.45*" MinWidth="520" />
+            <ColumnDefinition Width="12" />
+            <ColumnDefinition Width="*" MinWidth="340" />
+        </Grid.ColumnDefinitions>
+
+        <Border Style="{StaticResource Card}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel>
+                        <TextBlock Text="Passos capturados" Style="{StaticResource SectionTitle}" />
+                        <TextBlock Text="Cliques e preenchimentos são convertidos em ações semânticas com múltiplos locators."
+                                   Style="{StaticResource Caption}" Margin="0,3,0,0" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Orientation="Horizontal">
+                        <Border Style="{StaticResource StatusBadge}" Margin="0,0,10,0">
+                            <TextBlock Foreground="{DynamicResource PrimaryBrush}">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Text" Value="Parado" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsRecording}" Value="True">
+                                                <Setter Property="Text" Value="● Gravando" />
+                                                <Setter Property="Foreground" Value="{DynamicResource ErrorBrush}" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </Border>
+                        <Button Content="Iniciar" Command="{Binding StartCommand}" Style="{StaticResource PrimaryButton}" />
+                        <Button Content="Parar" Command="{Binding StopCommand}" Style="{StaticResource SecondaryButton}" Margin="8,0,0,0" />
+                    </StackPanel>
+                </Grid>
+
+                <DataGrid Grid.Row="1" ItemsSource="{Binding Steps}" Margin="0,16,0,0">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="#" Binding="{Binding Sequence}" Width="45" />
+                        <DataGridTextColumn Header="Ação" Binding="{Binding Action}" Width="90" />
+                        <DataGridTextColumn Header="Elemento" Binding="{Binding DisplayName}" Width="2*" />
+                        <DataGridTextColumn Header="Classe" Binding="{Binding ClassName}" Width="*" />
+                        <DataGridTextColumn Header="Tipo" Binding="{Binding ControlType}" Width="*" />
+                        <DataGridTextColumn Header="Valor" Binding="{Binding Input}" Width="*" />
+                        <DataGridTextColumn Header="Capturado" Binding="{Binding CapturedAt, StringFormat={}{0:HH:mm:ss.fff}}" Width="110" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </Border>
+
+        <Border Grid.Column="2" Style="{StaticResource Card}">
+            <StackPanel>
+                <TextBlock Text="Gerar caso de teste" Style="{StaticResource SectionTitle}" />
+                <TextBlock Text="O caso usa o mesmo modelo e Runner do M2." Style="{StaticResource Caption}" Margin="0,3,0,18" />
+
+                <TextBlock Text="Aplicação conectada" Style="{StaticResource PropertyLabel}" Margin="0,0,0,6" />
+                <TextBlock Text="{Binding State.Session.WindowTitle, TargetNullValue=Nenhuma aplicação conectada}"
+                           TextWrapping="Wrap" />
+
+                <TextBlock Text="Projeto" Style="{StaticResource PropertyLabel}" Margin="0,18,0,6" />
+                <ComboBox ItemsSource="{Binding Projects}" SelectedItem="{Binding SelectedProject}" DisplayMemberPath="Name" />
+
+                <TextBlock Text="Nome do caso" Style="{StaticResource PropertyLabel}" Margin="0,14,0,6" />
+                <TextBox Text="{Binding TestName, UpdateSourceTrigger=PropertyChanged}" />
+
+                <Button Content="Salvar caso" Command="{Binding SaveTestCommand}"
+                        Style="{StaticResource PrimaryButton}" Margin="0,18,0,0" />
+                <Button Content="Salvar e abrir Execução" Command="{Binding SaveAndOpenExecutionCommand}"
+                        Style="{StaticResource SecondaryButton}" Margin="0,8,0,0" />
+                <Button Content="Atualizar projetos" Command="{Binding LoadCommand}"
+                        Style="{StaticResource SecondaryButton}" Margin="0,8,0,0" />
+
+                <Border Background="{DynamicResource PrimarySoftBrush}" CornerRadius="7" Padding="12" Margin="0,18,0,0">
+                    <TextBlock Text="{Binding StatusMessage}" Foreground="{DynamicResource TextPrimaryBrush}"
+                               TextWrapping="Wrap" />
+                </Border>
+
+                <TextBlock Text="Preenchimentos são capturados pelo valor final do campo, sem registrar teclas. Campos sensíveis são ignorados."
+                           Style="{StaticResource Caption}" TextWrapping="Wrap" Margin="0,16,0,0" />
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>

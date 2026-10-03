@@ -1,0 +1,18 @@
+<UserControl x:Class="QASentinel.Desktop.Views.ComingSoonView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Border Style="{StaticResource Card}" MaxWidth="620" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <StackPanel HorizontalAlignment="Center">
+            <Border Width="56" Height="56" CornerRadius="28" Background="{DynamicResource PrimarySoftBrush}">
+                <TextBlock Text="…" FontSize="28" Foreground="{DynamicResource PrimaryBrush}"
+                           HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </Border>
+            <TextBlock Text="{Binding FeatureName}" FontSize="22" FontWeight="SemiBold"
+                       HorizontalAlignment="Center" Margin="0,18,0,6" />
+            <TextBlock Text="Em desenvolvimento" Foreground="{DynamicResource TextSecondaryBrush}"
+                       HorizontalAlignment="Center" />
+            <TextBlock Margin="0,14,0,0" TextAlignment="Center" Foreground="{DynamicResource TextSecondaryBrush}"
+                       Text="Este módulo aparece na navegação para preservar a direção do produto, mas não contém funcionalidade fictícia no primeiro MVP." />
+        </StackPanel>
+    </Border>
+</UserControl>
